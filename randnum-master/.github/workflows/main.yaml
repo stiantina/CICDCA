@@ -1,0 +1,52 @@
+name: Github 2 Dockerhub 2 Slack
+on:
+  push:
+    # types: release
+    # tag:
+    # - v1.*
+
+jobs:
+  build_and_upload:
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+      # https://github.com/marketplace/actions/checkout
+      - name: Checkout the code from github repo
+        uses: actions/checkout@v3
+
+      # https://github.com/marketplace/actions/docker-login
+      - name: Login to hub.docker.io
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      # https://github.com/marketplace/actions/build-and-push-docker-images
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: e0941659/randnum:${{ github.ref_name }} 
+
+      # https://github.com/marketplace/actions/slack-webhook
+      - name: Send a Message 
+        id: slack
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Name: Jiang Hanlin \n Matriculation: A0249466N \n Email: 1213452923@qq.com \n Repo: ${{ github.repositoryUrl }} \n Image Name: e0941659/randnum:${{ github.ref_name }}  \n Image url: https://hub.docker.com/repository/docker/e0941659/randnum"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
