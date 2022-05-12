@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: e0941659/randnum:${{ github.ref_name }} 
+          tags: stiantina924/cicdca:${{ github.ref_name }} 
 
       # https://github.com/marketplace/actions/slack-webhook
       - name: Send a Message 
@@ -42,7 +42,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Name: Jiang Hanlin \n Matriculation: A0249466N \n Email: 1213452923@qq.com \n Repo: ${{ github.repositoryUrl }} \n Image Name: e0941659/randnum:${{ github.ref_name }}  \n Image url: https://hub.docker.com/repository/docker/e0941659/randnum"
+                    "text": "Name: Tian Shuang \n Matriculation: A0249479H \n Email: stiantina924@gmail.com \n Repo: ${{ github.repositoryUrl }} \n Image Name: stiantina924/cicdca:${{ github.ref_name }}  \n Image url: https://hub.docker.com/repository/docker/stiantina924/cicdca"
                   }
                 }
               ]
